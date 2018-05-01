@@ -4,4 +4,12 @@
     <string name="current_tasks">Current</string>
     <string name="done_tasks">Done</string>
     <string name="empty_tasks">No tasks</string>
+
+    <string name="dialog_title">Add task</string>
+    <string name="hint_task_title">Title</string>
+    <string name="hint_task_date">Date</string>
+    <string name="hint_task_time">Time</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_error_empty_title">Please, enter title.</string>
 </resources>

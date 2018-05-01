@@ -1,15 +1,20 @@
 package oprysko.bw.ki.taskmanager;
 
+import android.app.DialogFragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Toast;
 
 import oprysko.bw.ki.taskmanager.adapter.TabAdapter;
+import oprysko.bw.ki.taskmanager.dialog.AddingTaskDialogFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener{
 
     private FragmentManager fragmentManager;
 
@@ -56,6 +61,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment addingTaskDialog = new AddingTaskDialogFragment();
+                addingTaskDialog.show(fragmentManager, "AddingTaskDialogFragment");
+            }
+        });
     }
 
+    @Override
+    public void onTaskAdded() {
+        Toast.makeText(this, "Task added", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTaskAddedCancel() {
+        Toast.makeText(this, "Task canceled", Toast.LENGTH_SHORT).show();
+    }
 }
