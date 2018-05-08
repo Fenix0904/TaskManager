@@ -12,23 +12,28 @@ import android.view.View;
 import android.widget.Toast;
 
 import oprysko.bw.ki.taskmanager.adapter.TabAdapter;
+import oprysko.bw.ki.taskmanager.database.DBHelper;
 import oprysko.bw.ki.taskmanager.dialog.AddingTaskDialogFragment;
 import oprysko.bw.ki.taskmanager.fragment.CurrentTaskFragment;
 import oprysko.bw.ki.taskmanager.fragment.DoneTaskFragment;
 import oprysko.bw.ki.taskmanager.model.Task;
 
-public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener{
+public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener,
+        CurrentTaskFragment.OnTaskDoneListener, DoneTaskFragment.OnTaskRestoreListener {
 
     private FragmentManager fragmentManager;
     private TabAdapter tabAdapter;
     private CurrentTaskFragment currentTaskFragment;
     private DoneTaskFragment doneTaskFragment;
 
+    public DBHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHelper = new DBHelper(getApplicationContext());
         fragmentManager = getFragmentManager();
 
         setUI();
@@ -83,11 +88,21 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
     @Override
     public void onTaskAdded(Task task) {
-        currentTaskFragment.addTask(task);
+        currentTaskFragment.addTask(task, true);
     }
 
     @Override
     public void onTaskAddedCancel() {
         Toast.makeText(this, "Task canceled", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTaskRestore(Task modelTask) {
+        currentTaskFragment.addTask(modelTask, false);
+    }
+
+    @Override
+    public void onTaskDone(Task modelTask) {
+        doneTaskFragment.addTask(modelTask, false);
     }
 }
