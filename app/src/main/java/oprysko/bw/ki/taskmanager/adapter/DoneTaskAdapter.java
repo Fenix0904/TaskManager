@@ -51,11 +51,12 @@ public class DoneTaskAdapter extends TaskAdapter {
             }
 
             itemView.setVisibility(View.VISIBLE);
-            itemView.setBackgroundColor(resources.getColor(R.color.gray_50));
+
             taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_disabled_material_light));
             taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_disabled_material_light));
             taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));
             taskViewHolder.priority.setImageResource(R.drawable.ic_access_time_white_24dp);
+            taskViewHolder.priority.setEnabled(true);
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -75,11 +76,10 @@ public class DoneTaskAdapter extends TaskAdapter {
             taskViewHolder.priority.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    taskViewHolder.priority.setEnabled(false);
                     task.setStatus(Task.STASUS_CURRENT);
                     getTaskFragment().activity.dbHelper.getUpdateManager().updateStatus(task.getTimeStamp(), Task.STASUS_CURRENT);
 
-
-                    itemView.setBackgroundColor(resources.getColor(R.color.gray_200));
                     taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_default_material_light));
                     taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_default_material_light));
                     taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));

@@ -40,6 +40,8 @@ public abstract class TaskFragment extends Fragment {
 
     public abstract void addTaskFromDB();
 
+    public abstract void findTasks(String title);
+
     public void removeTaskDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.dialog_remove_message);

@@ -85,9 +85,24 @@ public class DoneTaskFragment extends TaskFragment {
 
     @Override
     public void addTaskFromDB() {
+        adapter.removeAllItems();
         List<Task> tasks = new ArrayList<>();
         tasks.addAll(activity.dbHelper.getQueryManager().getTasks(DBHelper.SELECTION_STATUS,
                 new String[]{Integer.toString(Task.STASUS_DONE)}, DBHelper.TASKS_DATE_COLUMN));
+
+        for (Task task : tasks) {
+            addTask(task, false);
+        }
+    }
+
+    @Override
+    public void findTasks(String title) {
+        adapter.removeAllItems();
+        List<Task> tasks = new ArrayList<>();
+        tasks.addAll(activity.dbHelper.getQueryManager().getTasks(DBHelper.SELECTION_LIKE_TITLE + " AND "
+                + DBHelper.SELECTION_STATUS,
+                new String[]{"%" + title + "%", Integer.toString(Task.STASUS_DONE)},
+                DBHelper.TASKS_DATE_COLUMN));
 
         for (Task task : tasks) {
             addTask(task, false);
