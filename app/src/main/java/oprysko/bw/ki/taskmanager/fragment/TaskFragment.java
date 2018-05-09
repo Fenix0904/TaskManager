@@ -12,6 +12,7 @@ import android.view.View;
 import oprysko.bw.ki.taskmanager.MainActivity;
 import oprysko.bw.ki.taskmanager.R;
 import oprysko.bw.ki.taskmanager.adapter.TaskAdapter;
+import oprysko.bw.ki.taskmanager.alarm.AlarmHelper;
 import oprysko.bw.ki.taskmanager.model.Item;
 import oprysko.bw.ki.taskmanager.model.Task;
 
@@ -22,6 +23,7 @@ public abstract class TaskFragment extends Fragment {
     protected TaskAdapter adapter;
 
     public MainActivity activity;
+    public AlarmHelper alarmHelper;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -30,6 +32,8 @@ public abstract class TaskFragment extends Fragment {
         if (getActivity() != null) {
             activity = (MainActivity) getActivity();
         }
+
+        alarmHelper = AlarmHelper.getInstance();
 
         addTaskFromDB();
     }
@@ -75,6 +79,7 @@ public abstract class TaskFragment extends Fragment {
                         @Override
                         public void onViewDetachedFromWindow(View v) {
                             if (isRemoved[0]) {
+                                alarmHelper.removeAlarm(timeStamp);
                                 activity.dbHelper.removeTask(timeStamp);
                             }
                         }

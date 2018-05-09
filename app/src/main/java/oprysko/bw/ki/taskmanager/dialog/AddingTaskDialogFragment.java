@@ -25,6 +25,7 @@ import java.util.Calendar;
 
 import oprysko.bw.ki.taskmanager.R;
 import oprysko.bw.ki.taskmanager.Utils;
+import oprysko.bw.ki.taskmanager.alarm.AlarmHelper;
 import oprysko.bw.ki.taskmanager.model.Task;
 
 public class AddingTaskDialogFragment extends DialogFragment {
@@ -90,7 +91,7 @@ public class AddingTaskDialogFragment extends DialogFragment {
 
         final Calendar calendar = Calendar.getInstance();
         //TODO remove and write correct functionality
-        calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) + 1);
+        calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
 
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +150,8 @@ public class AddingTaskDialogFragment extends DialogFragment {
                 task.setDate(calendar.getTimeInMillis());
                 task.setStatus(Task.STASUS_CURRENT);
                 addingTaskListener.onTaskAdded(task);
+                AlarmHelper alarmHelper = AlarmHelper.getInstance();
+                alarmHelper.setAlarm(task);
                 dialog.dismiss();
             }
         });

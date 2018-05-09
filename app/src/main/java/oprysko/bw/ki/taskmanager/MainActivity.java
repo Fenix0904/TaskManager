@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import oprysko.bw.ki.taskmanager.adapter.TabAdapter;
+import oprysko.bw.ki.taskmanager.alarm.AlarmHelper;
 import oprysko.bw.ki.taskmanager.database.DBHelper;
 import oprysko.bw.ki.taskmanager.dialog.AddingTaskDialogFragment;
 import oprysko.bw.ki.taskmanager.fragment.CurrentTaskFragment;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AlarmHelper.getInstance().init(getApplicationContext());
 
         dbHelper = new DBHelper(getApplicationContext());
         fragmentManager = getFragmentManager();

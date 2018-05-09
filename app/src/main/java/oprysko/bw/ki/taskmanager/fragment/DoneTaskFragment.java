@@ -80,6 +80,7 @@ public class DoneTaskFragment extends TaskFragment {
 
     @Override
     public void moveTask(Task task) {
+        alarmHelper.setAlarm(task);
         this.onTaskRestoreListener.onTaskRestore(task);
     }
 
