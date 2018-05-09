@@ -12,4 +12,7 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_error_empty_title">Please, enter title.</string>
+
+    <string name="dialog_remove_message">Are you sore wont to delete this task?</string>
+    <string name="removed">Removed</string>
 </resources>

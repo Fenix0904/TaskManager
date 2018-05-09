@@ -57,6 +57,21 @@ public class DoneTaskAdapter extends TaskAdapter {
             taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));
             taskViewHolder.priority.setImageResource(R.drawable.ic_access_time_white_24dp);
 
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getTaskFragment().removeTaskDialog(taskViewHolder.getLayoutPosition());
+                        }
+                    }, 1000);
+
+                    return true;
+                }
+            });
+
             taskViewHolder.priority.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -12,8 +12,24 @@ public class DBQueryManager {
 
     private SQLiteDatabase database;
 
-    DBQueryManager (SQLiteDatabase sqLiteDatabase) {
+    DBQueryManager(SQLiteDatabase sqLiteDatabase) {
         this.database = sqLiteDatabase;
+    }
+
+    public Task getTask(long timeStamp) {
+        Task task = null;
+        Cursor cursor = database.query(DBHelper.TASKS_TABLE, null, DBHelper.SELECTION_TIME_STAMP,
+                new String[]{Long.toString(timeStamp)}, null, null, null);
+        if (cursor.moveToFirst()) {
+            String title = cursor.getString(cursor.getColumnIndex(DBHelper.TASKS_TITLE_COLUMN));
+            long date = cursor.getLong(cursor.getColumnIndex(DBHelper.TASKS_DATE_COLUMN));
+            int priority = cursor.getInt(cursor.getColumnIndex(DBHelper.TASKS_PRIORITY_COLUMN));
+            int status = cursor.getInt(cursor.getColumnIndex(DBHelper.TASKS_STATUS_COLUMN));
+
+            task = new Task(title, date, priority, status, timeStamp);
+        }
+        cursor.close();
+        return task;
     }
 
     public List<Task> getTasks(String selection, String[] selectionArgs, String orderBy) {

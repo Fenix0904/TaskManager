@@ -68,59 +68,14 @@ public class CurrentTaskFragment extends TaskFragment {
                 }
             }
         }
-        if (newTask.getDate() != 0) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(newTask.getDate());
-//            if (calendar.get(Calendar.DAY_OF_YEAR) < Calendar.getInstance().get(Calendar.DAY_OF_YEAR) && calendar.getTimeInMillis() < Calendar.getInstance().getTimeInMillis()) {
-//                //newTask.setDateStatus(C0372R.string.separator_overdue);
-////                if (!this.adapter.containsSeparatorOverdue) {
-////                    this.adapter.containsSeparatorOverdue = true;
-////                    separator = new ModelSeparator(C0372R.string.separator_overdue);
-////                }
-//            } else if (calendar.get(6) == Calendar.getInstance().get(6) && calendar.get(1) == Calendar.getInstance().get(1)) {
-//                newTask.setDateStatus(C0372R.string.separator_today);
-//                if (!this.adapter.containsSeparatorToday) {
-//                    this.adapter.containsSeparatorToday = true;
-//                    separator = new ModelSeparator(C0372R.string.separator_today);
-//                }
-//            } else if (calendar.get(6) == Calendar.getInstance().get(6) + 1 && calendar.get(1) == Calendar.getInstance().get(1)) {
-//                newTask.setDateStatus(C0372R.string.separator_tomorrow);
-//                if (!this.adapter.containsSeparatorTomorrow) {
-//                    this.adapter.containsSeparatorTomorrow = true;
-//                    separator = new ModelSeparator(C0372R.string.separator_tomorrow);
-//                }
-//            } else if (calendar.get(6) > Calendar.getInstance().get(6) + 1 || calendar.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()) {
-//                newTask.setDateStatus(C0372R.string.separator_future);
-//                if (!this.adapter.containsSeparatorFuture) {
-//                    this.adapter.containsSeparatorFuture = true;
-//                    separator = new ModelSeparator(C0372R.string.separator_future);
-//                }
-//            }
-//        }
-            if (position != -1) {
-                if (!this.adapter.getItem(position - 1).isTask()) {
-                    if (position - 2 < 0 || !this.adapter.getItem(position - 2).isTask()) {
-                        if (position - 2 < 0 && newTask.getDate() == 0) {
-                            position--;
-                        }
-                    } else if (((Task) this.adapter.getItem(position - 2)).getDateStatus() == newTask.getDateStatus()) {
-                        position--;
-                    }
-                }
-//            if (separator != null) {
-//                this.adapter.addItem(position - 1, separator);
-//            }
-                this.adapter.addItem(position, newTask);
-            } else {
-//            if (separator != null) {
-//                this.adapter.addItem(separator);
-//            }
-                this.adapter.addItem(newTask);
-            }
+        if (position != -1) {
+            this.adapter.addItem(position, newTask);
+        } else {
+            this.adapter.addItem(newTask);
+        }
 
-            if (saveToDB) {
-                activity.dbHelper.saveTask(newTask);
-            }
+        if (saveToDB) {
+            activity.dbHelper.saveTask(newTask);
         }
     }
 
@@ -139,7 +94,7 @@ public class CurrentTaskFragment extends TaskFragment {
     public void addTaskFromDB() {
         List<Task> tasks = new ArrayList<>();
         tasks.addAll(activity.dbHelper.getQueryManager().getTasks(DBHelper.SELECTION_STATUS + " OR "
-        + DBHelper.SELECTION_STATUS, new String[]{Integer.toString(Task.STASUS_CURRENT),
+                + DBHelper.SELECTION_STATUS, new String[]{Integer.toString(Task.STASUS_CURRENT),
                 Integer.toString(Task.STASUS_OVERDUE)}, DBHelper.TASKS_DATE_COLUMN));
 
         for (Task task : tasks) {
