@@ -21,8 +21,8 @@ public class BootReceiver extends BroadcastReceiver {
 
         List<Task> tasks = new ArrayList<>();
         tasks.addAll(dbHelper.getQueryManager().getTasks(DBHelper.SELECTION_STATUS + " OR "
-                + DBHelper.SELECTION_STATUS, new String[]{Integer.toString(Task.STASUS_CURRENT),
-                Integer.toString(Task.STASUS_OVERDUE)}, DBHelper.TASKS_DATE_COLUMN));
+                + DBHelper.SELECTION_STATUS, new String[]{Integer.toString(Task.STATUS_CURRENT),
+                Integer.toString(Task.STATUS_OVERDUE)}, DBHelper.TASKS_DATE_COLUMN));
 
         for (Task task : tasks) {
             if (task.getDate() != 0) {

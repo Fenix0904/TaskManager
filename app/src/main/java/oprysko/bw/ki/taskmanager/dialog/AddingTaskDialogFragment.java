@@ -1,11 +1,9 @@
 package oprysko.bw.ki.taskmanager.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -148,7 +146,7 @@ public class AddingTaskDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 task.setTitle(etHeader.getText().toString());
                 task.setDate(calendar.getTimeInMillis());
-                task.setStatus(Task.STASUS_CURRENT);
+                task.setStatus(Task.STATUS_CURRENT);
                 addingTaskListener.onTaskAdded(task);
                 AlarmHelper alarmHelper = AlarmHelper.getInstance();
                 alarmHelper.setAlarm(task);

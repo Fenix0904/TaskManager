@@ -77,8 +77,8 @@ public class DoneTaskAdapter extends TaskAdapter {
                 @Override
                 public void onClick(View v) {
                     taskViewHolder.priority.setEnabled(false);
-                    task.setStatus(Task.STASUS_CURRENT);
-                    getTaskFragment().activity.dbHelper.getUpdateManager().updateStatus(task.getTimeStamp(), Task.STASUS_CURRENT);
+                    task.setStatus(Task.STATUS_CURRENT);
+                    getTaskFragment().activity.dbHelper.getUpdateManager().updateStatus(task.getTimeStamp(), Task.STATUS_CURRENT);
 
                     taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_default_material_light));
                     taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_default_material_light));

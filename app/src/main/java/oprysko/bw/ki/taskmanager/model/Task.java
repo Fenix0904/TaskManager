@@ -1,7 +1,5 @@
 package oprysko.bw.ki.taskmanager.model;
 
-import android.support.annotation.Nullable;
-
 import java.util.Date;
 
 import oprysko.bw.ki.taskmanager.R;
@@ -14,9 +12,9 @@ public class Task implements Item {
 
     public static final String[] PRIORITY_LEVELS = {"Low priority", "Normal priority", "High priority"};
 
-    public static final int STASUS_OVERDUE = 0;
-    public static final int STASUS_CURRENT = 1;
-    public static final int STASUS_DONE = 2;
+    public static final int STATUS_OVERDUE = 0;
+    public static final int STATUS_CURRENT = 1;
+    public static final int STATUS_DONE = 2;
 
     private String title;
     private long date;
@@ -41,15 +39,15 @@ public class Task implements Item {
     public int getPriorityColor() {
         switch (getPriority()) {
             case PRIORITY_HIGH:
-                if (getStatus() == STASUS_CURRENT || getStatus() == STASUS_OVERDUE) {
+                if (getStatus() == STATUS_CURRENT || getStatus() == STATUS_OVERDUE) {
                     return R.color.priority_high;
                 } else return R.color.priority_high_selected;
             case PRIORITY_NORMAL:
-                if (getStatus() == STASUS_CURRENT || getStatus() == STASUS_OVERDUE) {
+                if (getStatus() == STATUS_CURRENT || getStatus() == STATUS_OVERDUE) {
                     return R.color.priority_normal;
                 } else return R.color.priority_normal_selected;
             case PRIORITY_LOW:
-                if (getStatus() == STASUS_CURRENT || getStatus() == STASUS_OVERDUE) {
+                if (getStatus() == STATUS_CURRENT || getStatus() == STATUS_OVERDUE) {
                     return R.color.priority_low;
                 } else return R.color.priority_low_selected;
             default: return 0;

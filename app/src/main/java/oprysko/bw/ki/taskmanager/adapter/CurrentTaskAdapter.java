@@ -3,7 +3,6 @@ package oprysko.bw.ki.taskmanager.adapter;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.FragmentManager;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import oprysko.bw.ki.taskmanager.R;
 import oprysko.bw.ki.taskmanager.Utils;
 import oprysko.bw.ki.taskmanager.fragment.CurrentTaskFragment;
 import oprysko.bw.ki.taskmanager.model.Item;
+import oprysko.bw.ki.taskmanager.model.Separator;
 import oprysko.bw.ki.taskmanager.model.Task;
 
 public class CurrentTaskAdapter extends TaskAdapter {
@@ -38,8 +40,11 @@ public class CurrentTaskAdapter extends TaskAdapter {
                 CircleImageView priority = (CircleImageView) v.findViewById(R.id.cvTaskPriority);
                 return new TaskViewHolder(v, title, date, priority);
 
-//            case TYPE_SEPARATOR:
-//                break;
+            case TYPE_SEPARATOR:
+                View separatorView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.model_separator, parent, false);
+                TextView type = (TextView) separatorView.findViewById(R.id.separatorName);
+                return new SeparatorViewHolder(separatorView, type);
 
             default:
                 return null;
@@ -49,18 +54,24 @@ public class CurrentTaskAdapter extends TaskAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Item item = items.get(position);
+        final Resources resources = holder.itemView.getResources();
         if (item.isTask()) {
             holder.itemView.setEnabled(true);
             final Task task = (Task) item;
             final TaskViewHolder taskViewHolder = (TaskViewHolder) holder;
             final View itemView = taskViewHolder.itemView;
-            final Resources resources = itemView.getResources();
 
             taskViewHolder.title.setText(task.getTitle());
             if (task.getDate() != 0) {
                 taskViewHolder.date.setText(Utils.getFullDate(task.getDate()));
             } else {
                 taskViewHolder.date.setText(null);
+            }
+
+            if (task.getDate() != 0 && task.getDate() < Calendar.getInstance().getTimeInMillis()) {
+                itemView.setBackgroundColor(resources.getColor(R.color.gray_200));
+            } else {
+                itemView.setBackgroundColor(resources.getColor(R.color.gray_50));
             }
 
             itemView.setVisibility(View.VISIBLE);
@@ -89,8 +100,8 @@ public class CurrentTaskAdapter extends TaskAdapter {
                 @Override
                 public void onClick(View v) {
                     taskViewHolder.priority.setEnabled(false);
-                    task.setStatus(Task.STASUS_DONE);
-                    getTaskFragment().activity.dbHelper.getUpdateManager().updateStatus(task.getTimeStamp(), Task.STASUS_DONE);
+                    task.setStatus(Task.STATUS_DONE);
+                    getTaskFragment().activity.dbHelper.getUpdateManager().updateStatus(task.getTimeStamp(), Task.STATUS_DONE);
                     taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_disabled_material_light));
                     taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_disabled_material_light));
                     taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));
@@ -151,6 +162,11 @@ public class CurrentTaskAdapter extends TaskAdapter {
                     animator.start();
                 }
             });
+        } else {
+            Separator separator = (Separator) item;
+            SeparatorViewHolder separatorViewHolder = (SeparatorViewHolder) holder;
+
+            separatorViewHolder.type.setText(resources.getString(separator.getType()));
         }
     }
 

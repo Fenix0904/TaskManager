@@ -17,4 +17,9 @@
     <string name="removed">Removed</string>
 
     <string name="notification_title">Reminder</string>
+
+    <string name="separator_overdue">Overdue</string>
+    <string name="separator_today">Today</string>
+    <string name="separator_tomorrow">Tomorrow</string>
+    <string name="separator_future">Future</string>
 </resources>

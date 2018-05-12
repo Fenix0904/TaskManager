@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import oprysko.bw.ki.taskmanager.R;
-import oprysko.bw.ki.taskmanager.adapter.CurrentTaskAdapter;
 import oprysko.bw.ki.taskmanager.adapter.DoneTaskAdapter;
 import oprysko.bw.ki.taskmanager.database.DBHelper;
 import oprysko.bw.ki.taskmanager.model.Task;
@@ -89,7 +88,7 @@ public class DoneTaskFragment extends TaskFragment {
         adapter.removeAllItems();
         List<Task> tasks = new ArrayList<>();
         tasks.addAll(activity.dbHelper.getQueryManager().getTasks(DBHelper.SELECTION_STATUS,
-                new String[]{Integer.toString(Task.STASUS_DONE)}, DBHelper.TASKS_DATE_COLUMN));
+                new String[]{Integer.toString(Task.STATUS_DONE)}, DBHelper.TASKS_DATE_COLUMN));
 
         for (Task task : tasks) {
             addTask(task, false);
@@ -102,7 +101,7 @@ public class DoneTaskFragment extends TaskFragment {
         List<Task> tasks = new ArrayList<>();
         tasks.addAll(activity.dbHelper.getQueryManager().getTasks(DBHelper.SELECTION_LIKE_TITLE + " AND "
                 + DBHelper.SELECTION_STATUS,
-                new String[]{"%" + title + "%", Integer.toString(Task.STASUS_DONE)},
+                new String[]{"%" + title + "%", Integer.toString(Task.STATUS_DONE)},
                 DBHelper.TASKS_DATE_COLUMN));
 
         for (Task task : tasks) {
