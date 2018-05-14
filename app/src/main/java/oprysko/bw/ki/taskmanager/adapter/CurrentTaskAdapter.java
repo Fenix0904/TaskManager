@@ -81,6 +81,13 @@ public class CurrentTaskAdapter extends TaskAdapter {
             taskViewHolder.priority.setImageResource(R.drawable.ic_access_time_white_24dp);
             taskViewHolder.priority.setEnabled(true);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getTaskFragment().showEditTaskDialog(task);
+                }
+            });
+
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {

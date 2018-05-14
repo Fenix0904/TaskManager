@@ -16,7 +16,7 @@ import oprysko.bw.ki.taskmanager.model.Task;
 public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<Item> items;
-    TaskFragment taskFragment;
+    private TaskFragment taskFragment;
 
     public boolean containsSeparatorOverdue;
     public boolean containsSeparatorFuture;
@@ -45,6 +45,18 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void addItem(int position, Item item) {
         items.add(position, item);
         notifyItemInserted(position);
+    }
+
+    public void updateItem(Task newTask) {
+        for (int i = 0; i < getItemCount(); i++) {
+            if (getItem(i).isTask()) {
+                Task task = (Task) getItem(i);
+                if (task.getTimeStamp() == newTask.getTimeStamp()) {
+                    removeItem(i);
+                    getTaskFragment().addTask(newTask, false);
+                }
+            }
+        }
     }
 
     public void removeItem(int position) {

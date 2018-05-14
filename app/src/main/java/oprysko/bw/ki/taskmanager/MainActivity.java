@@ -16,12 +16,13 @@ import oprysko.bw.ki.taskmanager.adapter.TabAdapter;
 import oprysko.bw.ki.taskmanager.alarm.AlarmHelper;
 import oprysko.bw.ki.taskmanager.database.DBHelper;
 import oprysko.bw.ki.taskmanager.dialog.AddingTaskDialogFragment;
+import oprysko.bw.ki.taskmanager.dialog.EditTaskDialogFragment;
 import oprysko.bw.ki.taskmanager.fragment.CurrentTaskFragment;
 import oprysko.bw.ki.taskmanager.fragment.DoneTaskFragment;
 import oprysko.bw.ki.taskmanager.model.Task;
 
 public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener,
-        CurrentTaskFragment.OnTaskDoneListener, DoneTaskFragment.OnTaskRestoreListener {
+        CurrentTaskFragment.OnTaskDoneListener, DoneTaskFragment.OnTaskRestoreListener, EditTaskDialogFragment.EditingTaskListener {
 
     private FragmentManager fragmentManager;
     private TabAdapter tabAdapter;
@@ -125,5 +126,11 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     @Override
     public void onTaskDone(Task modelTask) {
         doneTaskFragment.addTask(modelTask, false);
+    }
+
+    @Override
+    public void onTaskEdited(Task task) {
+        currentTaskFragment.updateTask(task);
+        dbHelper.getUpdateManager().updateTask(task);
     }
 }

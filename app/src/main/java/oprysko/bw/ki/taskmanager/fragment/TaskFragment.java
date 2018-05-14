@@ -1,6 +1,7 @@
 package oprysko.bw.ki.taskmanager.fragment;
 
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import oprysko.bw.ki.taskmanager.MainActivity;
 import oprysko.bw.ki.taskmanager.R;
 import oprysko.bw.ki.taskmanager.adapter.TaskAdapter;
 import oprysko.bw.ki.taskmanager.alarm.AlarmHelper;
+import oprysko.bw.ki.taskmanager.dialog.EditTaskDialogFragment;
 import oprysko.bw.ki.taskmanager.model.Item;
 import oprysko.bw.ki.taskmanager.model.Task;
 
@@ -38,6 +40,10 @@ public abstract class TaskFragment extends Fragment {
         addTaskFromDB();
     }
 
+    public void updateTask(Task task) {
+        adapter.updateItem(task);
+    }
+
     public abstract void addTask(Task newTask, boolean saveToDB);
 
     public abstract void moveTask(Task task);
@@ -45,6 +51,11 @@ public abstract class TaskFragment extends Fragment {
     public abstract void addTaskFromDB();
 
     public abstract void findTasks(String title);
+
+    public void showEditTaskDialog(Task task) {
+        DialogFragment dialog = EditTaskDialogFragment.newInstance(task);
+        dialog.show(getActivity().getFragmentManager(), "EditTaskDialogFragment");
+    }
 
     public void removeTaskDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

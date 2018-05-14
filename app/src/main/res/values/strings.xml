@@ -6,6 +6,8 @@
     <string name="empty_tasks">No tasks</string>
 
     <string name="dialog_title">Add task</string>
+    <string name="dialog_editing_title">Editing task</string>
+
     <string name="hint_task_title">Title</string>
     <string name="hint_task_date">Date</string>
     <string name="hint_task_time">Time</string>
