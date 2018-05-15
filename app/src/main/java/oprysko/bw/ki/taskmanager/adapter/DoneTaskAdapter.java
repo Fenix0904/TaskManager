@@ -9,9 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import oprysko.bw.ki.taskmanager.R;
 import oprysko.bw.ki.taskmanager.Utils;
 import oprysko.bw.ki.taskmanager.fragment.TaskFragment;
@@ -27,10 +27,11 @@ public class DoneTaskAdapter extends TaskAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.model_task, parent, false);
-        TextView title = (TextView) v.findViewById(R.id.tvTaskHeader);
-        TextView date = (TextView) v.findViewById(R.id.tvTaskDate);
-        CircleImageView priority = (CircleImageView) v.findViewById(R.id.cvTaskPriority);
-        return new TaskViewHolder(v, title, date, priority);
+        TextView title = (TextView) v.findViewById(R.id.tvTaskTitle);
+        TextView date = (TextView) v.findViewById(R.id.tvTaskTime);
+        ImageView priority = (ImageView) v.findViewById(R.id.task_priority);
+        ImageView icon = (ImageView) v.findViewById(R.id.task_icon);
+        return new TaskViewHolder(v, title, date, priority, icon);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class DoneTaskAdapter extends TaskAdapter {
 
             taskViewHolder.title.setText(task.getTitle());
             if (task.getDate() != 0) {
-                taskViewHolder.date.setText(Utils.getFullDate(task.getDate()));
+                taskViewHolder.date.setText(Utils.getTime(task.getDate()));
             } else {
                 taskViewHolder.date.setText(null);
             }
@@ -55,8 +56,8 @@ public class DoneTaskAdapter extends TaskAdapter {
             taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_disabled_material_light));
             taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_disabled_material_light));
             taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));
-            taskViewHolder.priority.setImageResource(R.drawable.ic_access_time_white_24dp);
             taskViewHolder.priority.setEnabled(true);
+            taskViewHolder.icon.setImageResource(R.drawable.baseline_done_white_24);
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -94,6 +95,7 @@ public class DoneTaskAdapter extends TaskAdapter {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             if (task.getStatus() != 2) {
+                                taskViewHolder.icon.setImageResource(R.drawable.ic_notifications_white_24dp);
                                 ObjectAnimator translationX = ObjectAnimator.ofFloat(itemView, "translationX", 0.0f, (float) -itemView.getWidth());
                                 ObjectAnimator translationXBack = ObjectAnimator.ofFloat(itemView, "translationX", (float) -itemView.getWidth(), 0.0f);
                                 translationX.addListener(new Animator.AnimatorListener() {

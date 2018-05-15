@@ -2,6 +2,7 @@ package oprysko.bw.ki.taskmanager.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -117,13 +118,15 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         protected TextView title;
         protected TextView date;
-        protected CircleImageView priority;
+        protected ImageView priority;
+        protected ImageView icon;
 
-        public TaskViewHolder(View itemView, TextView title, TextView date, CircleImageView priority) {
+        public TaskViewHolder(View itemView, TextView title, TextView date, ImageView priority, ImageView icon) {
             super(itemView);
             this.title = title;
             this.date = date;
             this.priority = priority;
+            this.icon = icon;
         }
     }
 

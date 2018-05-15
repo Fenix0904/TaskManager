@@ -20,9 +20,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        DBHelper dbHelper = new DBHelper(context);
+
         String title = intent.getStringExtra("title");
         long timeStamp = intent.getLongExtra("time_stamp", 0);
         int color = intent.getIntExtra("color", 0);
+
+        // FIXME
+        dbHelper.getUpdateManager().updateStatus(timeStamp, Task.STATUS_DONE);
 
         Intent result = new Intent(context, MainActivity.class);
         result.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
