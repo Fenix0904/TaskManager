@@ -21,10 +21,24 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilTaskContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tilTaskHeader"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/tilTaskDate"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tilTaskHeader"
+            android:layout_below="@+id/tilTaskContent"
             android:layout_marginStart="16dp">
 
             <EditText
@@ -40,7 +54,7 @@
             android:id="@+id/tilTaskTime"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tilTaskHeader"
+            android:layout_below="@+id/tilTaskContent"
             android:layout_alignEnd="@+id/tilTaskHeader">
 
             <EditText

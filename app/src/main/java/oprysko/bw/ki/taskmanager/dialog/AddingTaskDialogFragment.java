@@ -2,10 +2,12 @@ package oprysko.bw.ki.taskmanager.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -27,6 +30,15 @@ import oprysko.bw.ki.taskmanager.alarm.AlarmHelper;
 import oprysko.bw.ki.taskmanager.model.Task;
 
 public class AddingTaskDialogFragment extends DialogFragment {
+
+    private TextInputLayout tilHeader;
+    private EditText etHeader;
+    private TextInputLayout tilContent;
+    private EditText etContent;
+    private TextInputLayout tilDate;
+    private EditText etDate;
+    private TextInputLayout tilTime;
+    private EditText etTime;
 
     private AddingTaskListener addingTaskListener;
 
@@ -54,16 +66,19 @@ public class AddingTaskDialogFragment extends DialogFragment {
         builder.setTitle(R.string.dialog_title);
 
         View container = inflater.inflate(R.layout.dialog_task, null);
-        final TextInputLayout tilHeader = (TextInputLayout) container.findViewById(R.id.tilTaskHeader);
-        final EditText etHeader = tilHeader.getEditText();
-        final TextInputLayout tilDate = (TextInputLayout) container.findViewById(R.id.tilTaskDate);
-        final EditText etDate = tilDate.getEditText();
-        final TextInputLayout tilTime = (TextInputLayout) container.findViewById(R.id.tilTaskTime);
-        final EditText etTime = tilTime.getEditText();
+        tilHeader = (TextInputLayout) container.findViewById(R.id.tilTaskHeader);
+        etHeader = tilHeader.getEditText();
+        tilContent = (TextInputLayout) container.findViewById(R.id.tilTaskContent);
+        etContent = tilContent.getEditText();
+        tilDate = (TextInputLayout) container.findViewById(R.id.tilTaskDate);
+        etDate = tilDate.getEditText();
+        tilTime = (TextInputLayout) container.findViewById(R.id.tilTaskTime);
+        etTime = tilTime.getEditText();
 
         Spinner spPriority = (Spinner) container.findViewById(R.id.spDialogTaskPriority);
 
         tilHeader.setHint(getResources().getString(R.string.hint_task_title));
+        tilContent.setHint(getResources().getString(R.string.hint_task_content));
         tilDate.setHint(getResources().getString(R.string.hint_task_date));
         tilTime.setHint(getResources().getString(R.string.hint_task_time));
 
@@ -71,7 +86,7 @@ public class AddingTaskDialogFragment extends DialogFragment {
 
         final Task task = new Task();
 
-        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, Task.PRIORITY_LEVELS);
         spPriority.setAdapter(priorityAdapter);
 
@@ -97,22 +112,16 @@ public class AddingTaskDialogFragment extends DialogFragment {
                 if (etDate.length() == 0) {
                     etDate.setText(" ");
                 }
-
-                DialogFragment datePickerFragment = new DatePickerFragment() {
+                DatePickerDialog DatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    public void onDateSet(DatePicker DatePicker, int year, int month, int dayOfMonth) {
                         calendar.set(Calendar.YEAR, year);
                         calendar.set(Calendar.MONTH, month);
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         etDate.setText(Utils.getDate(calendar.getTimeInMillis()));
                     }
-
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        etDate.setText(null);
-                    }
-                };
-                datePickerFragment.show(getFragmentManager(), "DatePickerFragment");
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                DatePicker.show();
             }
         });
 
@@ -141,19 +150,7 @@ public class AddingTaskDialogFragment extends DialogFragment {
             }
         });
 
-        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                task.setTitle(etHeader.getText().toString());
-                task.setDate(calendar.getTimeInMillis());
-                task.setStatus(Task.STATUS_CURRENT);
-                addingTaskListener.onTaskAdded(task);
-                AlarmHelper alarmHelper = AlarmHelper.getInstance();
-                alarmHelper.setAlarm(task);
-                dialog.dismiss();
-            }
-        });
-
+        builder.setPositiveButton(R.string.dialog_ok, null);
         builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -165,12 +162,30 @@ public class AddingTaskDialogFragment extends DialogFragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
-            public void onShow(DialogInterface dialog) {
+            public void onShow(final DialogInterface dialog) {
                 final Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
                 if (etHeader.length() == 0) {
                     positiveButton.setEnabled(false);
                     tilHeader.setError(getResources().getString(R.string.dialog_error_empty_title));
                 }
+
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (validateDate(calendar)) {
+                            task.setTitle(etHeader.getText().toString());
+                            if (etContent.length() != 0) {
+                                task.setContent(etContent.getText().toString());
+                            }
+                            task.setDate(calendar.getTimeInMillis());
+                            task.setStatus(Task.STATUS_CURRENT);
+                            addingTaskListener.onTaskAdded(task);
+                            AlarmHelper alarmHelper = AlarmHelper.getInstance();
+                            alarmHelper.setAlarm(task);
+                            dialog.dismiss();
+                        }
+                    }
+                });
 
                 etHeader.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -198,5 +213,21 @@ public class AddingTaskDialogFragment extends DialogFragment {
         });
 
         return alertDialog;
+    }
+
+    private boolean validateDate(Calendar calendar) {
+        boolean isError = false;
+        if (etDate.length() == 0) {
+            isError = true;
+            Toast.makeText(getActivity(), R.string.snackbar_empty_date_error, Toast.LENGTH_LONG).show();
+            etDate.setError(null);
+        }
+        int instanceDay = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+        if (calendar.get(Calendar.DAY_OF_YEAR) < instanceDay) {
+            isError = true;
+            Toast.makeText(getActivity(), R.string.snackbar_date_error, Toast.LENGTH_LONG).show();
+            etDate.setError(null);
+        }
+        return !isError;
     }
 }

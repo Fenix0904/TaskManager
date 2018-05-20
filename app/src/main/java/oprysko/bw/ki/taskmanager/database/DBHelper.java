@@ -11,12 +11,13 @@ import oprysko.bw.ki.taskmanager.model.Task;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
 
     public static final String DATABASE_NAME = "main_db";
 
     public static final String TASKS_TABLE = "tasks";
-    public static final String TASKS_TITLE_COLUMN = "task_title";
+    public static final String TASKS_CONTENT_COLUMN = "task_title";
+    public static final String TASKS_TITLE_COLUMN = "task_content";
     public static final String TASKS_DATE_COLUMN = "task_date";
     public static final String TASKS_PRIORITY_COLUMN = "task_priority";
     public static final String TASKS_STATUS_COLUMN = "task_status";
@@ -26,6 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + " ("
             + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + TASKS_TITLE_COLUMN + " TEXT NOT NULL, "
+            + TASKS_CONTENT_COLUMN + " TEXT, "
             + TASKS_DATE_COLUMN + " LONG, "
             + TASKS_PRIORITY_COLUMN + " INTEGER, "
             + TASKS_STATUS_COLUMN + " INTEGER, "

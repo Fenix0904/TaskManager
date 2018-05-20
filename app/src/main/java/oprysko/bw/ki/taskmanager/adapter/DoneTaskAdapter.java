@@ -27,11 +27,12 @@ public class DoneTaskAdapter extends TaskAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.model_task, parent, false);
-        TextView title = (TextView) v.findViewById(R.id.tvTaskTitle);
-        TextView date = (TextView) v.findViewById(R.id.tvTaskTime);
+        TextView title = (TextView) v.findViewById(R.id.task_title);
+        TextView content = (TextView) v.findViewById(R.id.task_content);
+        TextView date = (TextView) v.findViewById(R.id.task_date);
         ImageView priority = (ImageView) v.findViewById(R.id.task_priority);
         ImageView icon = (ImageView) v.findViewById(R.id.task_icon);
-        return new TaskViewHolder(v, title, date, priority, icon);
+        return new TaskViewHolder(v, title, content, date, priority, icon);
     }
 
     @Override
@@ -45,6 +46,7 @@ public class DoneTaskAdapter extends TaskAdapter {
             final Resources resources = itemView.getResources();
 
             taskViewHolder.title.setText(task.getTitle());
+            taskViewHolder.content.setText(task.getContent());
             if (task.getDate() != 0) {
                 taskViewHolder.date.setText(Utils.getTime(task.getDate()));
             } else {
@@ -54,6 +56,7 @@ public class DoneTaskAdapter extends TaskAdapter {
             itemView.setVisibility(View.VISIBLE);
 
             taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_disabled_material_light));
+            taskViewHolder.content.setTextColor(resources.getColor(R.color.secondary_text_disabled_material_light));
             taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_disabled_material_light));
             taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));
             taskViewHolder.priority.setEnabled(true);

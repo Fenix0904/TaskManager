@@ -9,14 +9,18 @@
     <string name="dialog_editing_title">Editing task</string>
 
     <string name="hint_task_title">Title</string>
+    <string name="hint_task_content">Content (optional)</string>
     <string name="hint_task_date">Date</string>
-    <string name="hint_task_time">Time</string>
+    <string name="hint_task_time">Time (optional)</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_error_empty_title">Please, enter title.</string>
+    <string name="dialog_error_empty_date">Please, enter date.</string>
 
     <string name="dialog_remove_message">Are you sore wont to delete this task?</string>
-    <string name="removed">Removed</string>
+    <string name="snackbar_removed">Removed</string>
+    <string name="snackbar_empty_date_error">Please, fill date field.</string>
+    <string name="snackbar_date_error">Your date cannot be before today.</string>
 
     <string name="notification_title">Reminder</string>
 

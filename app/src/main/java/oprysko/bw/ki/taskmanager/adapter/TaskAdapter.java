@@ -117,13 +117,15 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
     protected class TaskViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView title;
+        protected TextView content;
         protected TextView date;
         protected ImageView priority;
         protected ImageView icon;
 
-        public TaskViewHolder(View itemView, TextView title, TextView date, ImageView priority, ImageView icon) {
+        public TaskViewHolder(View itemView, TextView title, TextView content, TextView date, ImageView priority, ImageView icon) {
             super(itemView);
             this.title = title;
+            this.content = content;
             this.date = date;
             this.priority = priority;
             this.icon = icon;

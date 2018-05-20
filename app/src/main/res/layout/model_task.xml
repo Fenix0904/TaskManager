@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/notification_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,8 +9,7 @@
     android:layout_marginRight="5dp"
     android:clipChildren="false"
     android:foreground="?android:attr/selectableItemBackground"
-    android:transitionName="cardTransition"
-    card_view:cardCornerRadius="3dp"
+    card_view:cardCornerRadius="4dp"
     card_view:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -28,7 +26,7 @@
                 android:id="@+id/task_priority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/circle"/>
+                android:src="@drawable/circle" />
 
             <ImageView
                 android:id="@+id/task_icon"
@@ -36,52 +34,44 @@
                 android:layout_height="18dp"
                 android:layout_gravity="center" />
 
-            <CheckBox
-                android:id="@+id/notification_chk"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_gravity="center"
-                android:visibility="invisible"/>
-
         </FrameLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp">
 
             <LinearLayout
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvTaskTitle"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/task_title"
                     android:layout_width="0dp"
-                    android:paddingStart="3dp"
-                    android:paddingEnd="3dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@android:color/black"
                     android:ellipsize="end"
-                    android:textSize="16sp"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tvTaskTime"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/task_date"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:gravity="end"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/notification_content"
+                android:id="@+id/task_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/cardview_dark_background"

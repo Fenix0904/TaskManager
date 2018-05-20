@@ -32,6 +32,7 @@ public class DBUpdateManager {
     public void updateTask(Task task) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.TASKS_TITLE_COLUMN, task.getTitle());
+        values.put(DBHelper.TASKS_CONTENT_COLUMN, task.getContent());
         values.put(DBHelper.TASKS_DATE_COLUMN, task.getDate());
         values.put(DBHelper.TASKS_PRIORITY_COLUMN, task.getPriority());
         values.put(DBHelper.TASKS_STATUS_COLUMN, task.getStatus());

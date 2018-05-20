@@ -72,7 +72,7 @@ public abstract class TaskFragment extends Fragment {
                     adapter.removeItem(position);
                     isRemoved[0] = true;
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout),
-                            R.string.removed, Snackbar.LENGTH_LONG);
+                            R.string.snackbar_removed, Snackbar.LENGTH_LONG);
                     snackbar.setAction(R.string.dialog_cancel, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

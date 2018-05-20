@@ -17,6 +17,7 @@ public class Task implements Item {
     public static final int STATUS_DONE = 2;
 
     private String title;
+    private String content;
     private long date;
     private int priority;
     private int status;
@@ -28,8 +29,9 @@ public class Task implements Item {
         this.timeStamp = new Date().getTime();
     }
 
-    public Task(String title, long date, int priority, int status, long timeStamp) {
+    public Task(String title, String content, long date, int priority, int status, long timeStamp) {
         this.title = title;
+        this.content = content;
         this.date = date;
         this.priority = priority;
         this.status = status;
@@ -105,5 +107,13 @@ public class Task implements Item {
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
