@@ -60,6 +60,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void saveTask(Task task) {
         ContentValues newValues = new ContentValues();
         newValues.put(TASKS_TITLE_COLUMN, task.getTitle());
+        newValues.put(TASKS_CONTENT_COLUMN, task.getContent());
         newValues.put(TASKS_DATE_COLUMN, task.getDate());
         newValues.put(TASKS_PRIORITY_COLUMN, task.getPriority());
         newValues.put(TASKS_STATUS_COLUMN, task.getStatus());

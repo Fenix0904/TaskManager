@@ -3,10 +3,15 @@ package oprysko.bw.ki.taskmanager.fragment;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -14,7 +19,7 @@ import oprysko.bw.ki.taskmanager.MainActivity;
 import oprysko.bw.ki.taskmanager.R;
 import oprysko.bw.ki.taskmanager.adapter.TaskAdapter;
 import oprysko.bw.ki.taskmanager.alarm.AlarmHelper;
-import oprysko.bw.ki.taskmanager.dialog.EditTaskDialogFragment;
+import oprysko.bw.ki.taskmanager.dialog.CreateEditTaskDialogFragment;
 import oprysko.bw.ki.taskmanager.model.Item;
 import oprysko.bw.ki.taskmanager.model.Task;
 
@@ -34,9 +39,7 @@ public abstract class TaskFragment extends Fragment {
         if (getActivity() != null) {
             activity = (MainActivity) getActivity();
         }
-
         alarmHelper = AlarmHelper.getInstance();
-
         addTaskFromDB();
     }
 
@@ -53,7 +56,7 @@ public abstract class TaskFragment extends Fragment {
     public abstract void findTasks(String title);
 
     public void showEditTaskDialog(Task task) {
-        DialogFragment dialog = EditTaskDialogFragment.newInstance(task);
+        DialogFragment dialog = CreateEditTaskDialogFragment.newInstance(task);
         dialog.show(getActivity().getFragmentManager(), "EditTaskDialogFragment");
     }
 
@@ -66,48 +69,58 @@ public abstract class TaskFragment extends Fragment {
             final long timeStamp = removingTask.getTimeStamp();
             final boolean[] isRemoved = {false};
 
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    adapter.removeItem(position);
-                    isRemoved[0] = true;
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout),
-                            R.string.snackbar_removed, Snackbar.LENGTH_LONG);
-                    snackbar.setAction(R.string.dialog_cancel, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            addTask(activity.dbHelper.getQueryManager().getTask(timeStamp), false);
-                            isRemoved[0] = false;
-                        }
-                    });
+            builder.setPositiveButton(R.string.dialog_ok, (dialog, which) -> {
+                adapter.removeItem(position);
+                isRemoved[0] = true;
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout),
+                        R.string.snackbar_removed, Snackbar.LENGTH_LONG);
+                snackbar.setAction(R.string.dialog_cancel, v -> {
+                    addTask(activity.dbHelper.getQueryManager().getTask(timeStamp), false);
+                    isRemoved[0] = false;
+                });
 
-                    snackbar.getView().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                        @Override
-                        public void onViewAttachedToWindow(View v) {
+                snackbar.getView().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                    @Override
+                    public void onViewAttachedToWindow(View v) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onViewDetachedFromWindow(View v) {
-                            if (isRemoved[0]) {
-                                alarmHelper.removeAlarm(timeStamp);
-                                activity.dbHelper.removeTask(timeStamp);
-                            }
+                    @Override
+                    public void onViewDetachedFromWindow(View v) {
+                        if (isRemoved[0]) {
+                            alarmHelper.removeAlarm(timeStamp);
+                            activity.dbHelper.removeTask(timeStamp);
                         }
-                    });
-                    snackbar.show();
-                    dialog.dismiss();
-                }
+                    }
+                });
+                snackbar.show();
+                dialog.dismiss();
             });
 
-            builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            builder.setNegativeButton(R.string.dialog_cancel, (dialog, which) -> dialog.cancel());
 
             builder.show();
         }
+    }
+
+    private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getBundleExtra("task");
+            Task task = new Task();
+            task.setTitle(bundle.getString("title"));
+            task.setContent(bundle.getString("content"));
+            task.setDate(bundle.getLong("date"));
+            task.setPriority(bundle.getInt("priority"));
+            task.setTimeStamp(bundle.getLong("time_stamp"));
+            task.setStatus(bundle.getInt("status"));
+            //TODO when notification shows up, move task into 'Done' section.
+        }
+    };
+
+    @Override
+    public void onResume() {
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiver, new IntentFilter("BROADCAST_REFRESH"));
+        super.onResume();
     }
 }

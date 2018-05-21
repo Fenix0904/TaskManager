@@ -17,4 +17,9 @@
 
     <color name="gray_50">#FAFAFA</color>
     <color name="gray_200">#EEEEEE</color>
+
+    <color name="primary_text_default_light">#de000000</color>
+    <color name="primary_text_disabled_light">#39000000</color>
+    <color name="secondary_text_default_light">#8a000000</color>
+    <color name="secondary_text_disabled_light">#24000000</color>
 </resources>

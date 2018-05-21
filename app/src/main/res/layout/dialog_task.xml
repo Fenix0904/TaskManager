@@ -68,13 +68,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spDialogTaskPriority"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spDialogTaskPriority"
             android:layout_below="@+id/tilTaskDate"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp" />
 
     </RelativeLayout>
 </ScrollView>

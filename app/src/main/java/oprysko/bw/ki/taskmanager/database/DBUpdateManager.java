@@ -13,17 +13,6 @@ public class DBUpdateManager {
         this.database = database;
     }
 
-    public void updateTitle(long timestamp, String title) {
-        update(DBHelper.TASKS_TITLE_COLUMN, timestamp, title);
-    }
-
-    public void updateDate(long timestamp, long date) {
-        update(DBHelper.TASKS_DATE_COLUMN, timestamp, date);
-    }
-
-    public void updatePriority(long timestamp, int priority) {
-        update(DBHelper.TASKS_PRIORITY_COLUMN, timestamp, priority);
-    }
 
     public void updateStatus(long timestamp, int status) {
         update(DBHelper.TASKS_STATUS_COLUMN, timestamp, status);

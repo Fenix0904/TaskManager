@@ -32,7 +32,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return doneTaskFragment;
             default:
-                return  null;
+                return null;
         }
     }
 

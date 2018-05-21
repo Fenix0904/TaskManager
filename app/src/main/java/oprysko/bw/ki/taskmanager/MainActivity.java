@@ -15,14 +15,13 @@ import android.widget.Toast;
 import oprysko.bw.ki.taskmanager.adapter.TabAdapter;
 import oprysko.bw.ki.taskmanager.alarm.AlarmHelper;
 import oprysko.bw.ki.taskmanager.database.DBHelper;
-import oprysko.bw.ki.taskmanager.dialog.AddingTaskDialogFragment;
-import oprysko.bw.ki.taskmanager.dialog.EditTaskDialogFragment;
+import oprysko.bw.ki.taskmanager.dialog.CreateEditTaskDialogFragment;
 import oprysko.bw.ki.taskmanager.fragment.CurrentTaskFragment;
 import oprysko.bw.ki.taskmanager.fragment.DoneTaskFragment;
 import oprysko.bw.ki.taskmanager.model.Task;
 
-public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener,
-        CurrentTaskFragment.OnTaskDoneListener, DoneTaskFragment.OnTaskRestoreListener, EditTaskDialogFragment.EditingTaskListener {
+public class MainActivity extends AppCompatActivity implements CreateEditTaskDialogFragment.AddingTaskListener,
+        CurrentTaskFragment.OnTaskDoneListener, DoneTaskFragment.OnTaskRestoreListener{
 
     private FragmentManager fragmentManager;
     private TabAdapter tabAdapter;
@@ -99,12 +98,9 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment addingTaskDialog = new AddingTaskDialogFragment();
-                addingTaskDialog.show(fragmentManager, "AddingTaskDialogFragment");
-            }
+        fab.setOnClickListener(v -> {
+            DialogFragment addingTaskDialog = new CreateEditTaskDialogFragment();
+            addingTaskDialog.show(fragmentManager, "CreateEditTaskDialogFragment");
         });
     }
 

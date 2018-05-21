@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.RemoteViews;
 
 import oprysko.bw.ki.taskmanager.MainActivity;
@@ -21,7 +23,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         DBHelper dbHelper = new DBHelper(context);
-
         String title = intent.getStringExtra("title");
         long timeStamp = intent.getLongExtra("time_stamp", 0);
         int color = intent.getIntExtra("color", 0);
@@ -48,5 +49,20 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(
                 Context.NOTIFICATION_SERVICE);
         notificationManager.notify((int) timeStamp, builder.build());
+
+
+        Task task = dbHelper.getQueryManager().getTask(timeStamp);
+        Bundle bundle = new Bundle();
+        bundle.putString("title", task.getTitle());
+        bundle.putString("content", task.getContent());
+        bundle.putLong("date", task.getDate());
+        bundle.putInt("priority", task.getPriority());
+        bundle.putLong("time_stamp", task.getTimeStamp());
+        bundle.putInt("status", task.getStatus());
+
+        Intent updateIntent = new Intent("BROADCAST_REFRESH");
+        updateIntent.putExtra("task", bundle);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
+        dbHelper.close();
     }
 }
