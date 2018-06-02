@@ -16,6 +16,7 @@ import oprysko.bw.ki.taskmanager.adapter.TabAdapter;
 import oprysko.bw.ki.taskmanager.alarm.AlarmHelper;
 import oprysko.bw.ki.taskmanager.database.DBHelper;
 import oprysko.bw.ki.taskmanager.dialog.CreateEditTaskDialogFragment;
+import oprysko.bw.ki.taskmanager.fragment.ActualTaskFragment;
 import oprysko.bw.ki.taskmanager.fragment.CurrentTaskFragment;
 import oprysko.bw.ki.taskmanager.fragment.DoneTaskFragment;
 import oprysko.bw.ki.taskmanager.model.Task;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements CreateEditTaskDia
     private TabAdapter tabAdapter;
     private CurrentTaskFragment currentTaskFragment;
     private DoneTaskFragment doneTaskFragment;
+    private ActualTaskFragment actualTaskFragment;
     private SearchView searchView;
 
     public DBHelper dbHelper;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements CreateEditTaskDia
         }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.actual_tasks));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.current_tasks));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.done_tasks));
 
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements CreateEditTaskDia
             }
         });
 
+        actualTaskFragment = (ActualTaskFragment) tabAdapter.getItem(TabAdapter.ACTUAL_TASK_FRAGMENT_POSITION);
         currentTaskFragment = (CurrentTaskFragment) tabAdapter.getItem(TabAdapter.CURRENT_TASK_FRAGMENT_POSITION);
         doneTaskFragment = (DoneTaskFragment) tabAdapter.getItem(TabAdapter.DONE_TASK_FRAGMENT_POSITION);
 
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements CreateEditTaskDia
             public boolean onQueryTextChange(String newText) {
                 currentTaskFragment.findTasks(newText);
                 doneTaskFragment.findTasks(newText);
+                actualTaskFragment.findTasks(newText);
                 return false;
             }
         });

@@ -40,6 +40,8 @@ public class CreateEditTaskDialogFragment extends DialogFragment {
     private TextInputLayout tilTime;
     private EditText etTime;
     private Spinner spPriority;
+    private TextInputLayout tillTag;
+    private Spinner spTag;
     private Task task;
     private boolean isEditing;
 
@@ -95,6 +97,8 @@ public class CreateEditTaskDialogFragment extends DialogFragment {
         tilTime = (TextInputLayout) container.findViewById(R.id.tilTaskTime);
         etTime = tilTime.getEditText();
         spPriority = (Spinner) container.findViewById(R.id.spDialogTaskPriority);
+        spTag = (Spinner) container.findViewById(R.id.spDialogTaskTags);
+        tillTag = (TextInputLayout) container.findViewById(R.id.tilTaskTag);
 
         tilHeader.setHint(getResources().getString(R.string.hint_task_title));
         tilContent.setHint(getResources().getString(R.string.hint_task_content));
@@ -103,7 +107,10 @@ public class CreateEditTaskDialogFragment extends DialogFragment {
 
         ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, Task.PRIORITY_LEVELS);
+        ArrayAdapter<String> tagAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_dropdown_item, Task.TAGS);
         spPriority.setAdapter(priorityAdapter);
+        spTag.setAdapter(tagAdapter);
 
         builder.setView(container);
         task = initValues();

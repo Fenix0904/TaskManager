@@ -76,5 +76,14 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp" />
 
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spDialogTaskTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spDialogTaskPriority"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp" />
+
     </RelativeLayout>
 </ScrollView>
