@@ -11,7 +11,6 @@ public class Task implements Item {
     public static final int PRIORITY_HIGH = 2;
 
     public static final String[] PRIORITY_LEVELS = {"Low priority", "Normal priority", "High priority"};
-    public static final String[] TAGS = {"Work", "Learning", "Home"};
 
     public static final int STATUS_OVERDUE = 0;
     public static final int STATUS_CURRENT = 1;
@@ -22,8 +21,13 @@ public class Task implements Item {
     private long date;
     private int priority;
     private int status;
+    private int tag;
     private int dateStatus;
     private long timeStamp;
+
+    private double dynamicPriority;
+    private int dynamicContextConformity;
+    private double contextInfluence;
 
     public Task() {
         this.status = -1;
@@ -116,5 +120,37 @@ public class Task implements Item {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getTag() {
+        return tag;
+    }
+
+    public void setTag(int tag) {
+        this.tag = tag;
+    }
+
+    public double getDynamicPriority() {
+        return dynamicPriority;
+    }
+
+    public void setDynamicPriority(double dynamicPriority) {
+        this.dynamicPriority = dynamicPriority;
+    }
+
+    public int getDynamicContextConformity() {
+        return dynamicContextConformity;
+    }
+
+    public void setDynamicContextConformity(int dynamicContextConformity) {
+        this.dynamicContextConformity = dynamicContextConformity;
+    }
+
+    public double getContextInfluence() {
+        return contextInfluence;
+    }
+
+    public void setContextInfluence(double contextInfluence) {
+        this.contextInfluence = contextInfluence;
     }
 }
